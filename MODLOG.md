@@ -36,3 +36,11 @@
 - Deleted version.dll and version_orig.dll from the AoE4 folder; restored RelicGame.module from backup (removed our [data:common:12] entry); deleted the test .sgas from cardinal\archives and the mods folder.
 - Verified clean: no version DLLs in the game folder, only vanilla .sgas in cardinal\archives, RelicGame.module identical to backup.
 - Back to stock, good for online play. (Optional extra safety: Steam "Verify integrity of game files".)
+
+## 2026-10-07 — Discord advice on .scar loading (Khan)
+- Asked AoE4 modding Discord for help. Key advice received:
+  - Read ScarDoc (the .scar reference doc) and feed it to the AI for tuning pack work
+  - Not all variables get loaded in tuning packs; check each section to see which ones actually load
+  - .scar files DO load in game mode (packaging is the problem, not the concept)
+  - For custom UI, put raw XAML inside .scar files; the game rejects standalone .xaml files
+- Takeaway: our approach isn't fundamentally wrong, it's a .sga packaging issue. Next: dig into ScarDoc.
