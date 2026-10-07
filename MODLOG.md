@@ -44,3 +44,11 @@
   - .scar files DO load in game mode (packaging is the problem, not the concept)
   - For custom UI, put raw XAML inside .scar files; the game rejects standalone .xaml files
 - Takeaway: our approach isn't fundamentally wrong, it's a .sga packaging issue. Next: dig into ScarDoc.
+
+## 2026-10-07 — .sga packaging solved, DLLs restored (Muse + Khan)
+- Downloaded AOEMods.Essence 0.7.0 CLI. sga-pack creates valid .sga with real content (verified round-trip, byte-identical).
+- Built khan_test.sga with marker print("KHAN_SGA_TEST_SUCCESS"), placed in mods folder.
+- Downloaded spearman.dll from maxcana/spearman release S13-v16.2.10884.
+- Restored DLLs to game folder: version.dll (spearman) + version_orig.dll (from System32).
+- Ready for in-game test: launch, check warnings.log for KHAN_SGA_TEST_SUCCESS.
+- Strategy confirmed: game mode .sga (unsigned) + DLL inject (bypasses sig check) work together.
