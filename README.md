@@ -5,7 +5,7 @@ Reverse-engineering and modding Age of Empires 4 AI behavior. Goal: full control
 ## Status
 
 - **Spearman DLL inject:** WORKS. Byte-pattern memory patches bypass signature checks for local testing.
-- **Phase 2 (.scar override):** BLOCKED on .sga building. The game ignores custom .sga files.
+- **Phase 2 (.scar override):** TESTING - .sga packing solved with AOEMods.Essence, in-game test pending.
 - **Zycat AI Lite re-cook:** Paused. Tuning pack update for current patch.
 
 ## Project Structure
@@ -28,14 +28,15 @@ Built from Rust source. Sideloaded as `version.dll` + `version_orig.dll` in the 
 
 **Safety:** Breaks online sign-in. Delete both DLLs before any online play.
 
-### .sga Building (Blocked)
-The game never loads custom .sga files containing .scar overrides. Tested via:
-- RelicGame.module ([data:common:12] in cardinal\archives)
-- Mods menu (local extension)
+### .sga Building (Solved 2026-10-07)
+Packaging is solved with **AOEMods.Essence** `sga-pack` (verified: round-trip pack/unpack is byte-identical, unlike the Content Editor which produced archives with file paths but no content).
 
-Marker test (`print()` at top of .scar) shows zero matches in warnings.log via both methods.
+- Tool: `AOEMods.Essence.CLI.dll sga-pack <input-dir> <output.sga> <archive-name>` (needs .NET 6)
+- Test .sga (`khan_test.sga`) built with marker `print("KHAN_SGA_TEST_SUCCESS")`, placed in `cardinal\archives` + RelicGame.module entry on Khan's PC
+- Spearman DLL (`version.dll` + `version_orig.dll`) restored to game folder for sig-check bypass
+- **Awaiting in-game verification:** launch, start skirmish, check warnings.log for the marker
 
-**Root causes identified:**
+Earlier dead ends (for the record):
 1. Content Editor burn rules exclude `ai\**\*.scar` by default
 2. relic-tool-sga doesn't support SGA v11
 3. Content Editor creates file entries without content for filesystem-added files
