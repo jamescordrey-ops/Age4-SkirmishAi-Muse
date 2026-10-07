@@ -52,3 +52,12 @@
 - Restored DLLs to game folder: version.dll (spearman) + version_orig.dll (from System32).
 - Ready for in-game test: launch, check warnings.log for KHAN_SGA_TEST_SUCCESS.
 - Strategy confirmed: game mode .sga (unsigned) + DLL inject (bypasses sig check) work together.
+
+## 2026-10-07 — Incorporated aoe4-mcp learnings (Muse + Khan)
+- Reviewed heartmove/aoe4-mcp (MCP server for AoE4 modding, built for Codex but knowledge applies generally)
+- Key discovery: RDO files are game mode configs at `scar/**/*.rdo` pointing to .scar entry points via `m_scarWinConditionFile` (path relative to `scar/`, no `.scar` suffix)
+- Our test .sga (khan_test.sga) only has raw .scar. Hypothesis: it may need RDO structure to load as a game mode, not just the .scar file. Not rebuilding yet; test the current .sga first, add RDO if it doesn't load.
+- Also learned: official API docs ship at `<aoe4>/scardocs/api` (check on PC); XAML bindings need brackets `{Binding [Name]}`; multiplayer mods need deterministic code + Network_RegisterEvent/Network_CallEvent sync
+- Saved learnings to aoe4-mcp-learnings.md
+- Repo cloned to ~/workspace/mods/aoe4/aoe4-mcp/ for reference (RDO parser code, workflow guidance)
+- Updated aoe4-modding skill with RDO format, API docs location, XAML gotcha, multiplayer rules
