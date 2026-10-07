@@ -1,8 +1,8 @@
 # ScarDoc Summary (for AoE4 AI modding)
 
-**Source:** https://cm2.network/ScarDoc/function_list.htm (CoH2 version, AoE4 uses same Essence Engine API)
-**Local copy:** ~/workspace/mods/aoe4/scardoc/function_list.htm (1.5MB, 12,123 lines)
-**Date fetched:** 2026-10-07
+**Primary:** AoE4 lua-docs at `~/workspace/mods/aoe4/aoemods-lua-docs/` (79 modules, 296 AI functions, AoE4-specific). Downloaded 2026-10-07 from https://github.com/aoemods/lua-docs.
+
+**Fallback:** CoH2 ScarDoc at https://cm2.network/ScarDoc/function_list.htm (same Essence Engine API family, fewer AoE4-specific functions). Local copy: `~/workspace/mods/aoe4/scardoc/function_list.htm` (1.5MB, 12,123 lines, fetched 2026-10-07).
 
 ## What is ScarDoc?
 The complete .scar scripting API reference for Relic's Essence Engine. .scar files are Lua scripts that control game logic, AI, missions, and UI.
