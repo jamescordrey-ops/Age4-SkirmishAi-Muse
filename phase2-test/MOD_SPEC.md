@@ -29,33 +29,31 @@ This is the simplest possible form of the open question from AI_REFERENCE.md
 §7.1. If it works, every future AI tweak ships the same way. If it doesn't,
 see Fallback below.
 
-## Build steps (Content Editor on Khan's PC)
+## Build steps (AOEMods.Essence sga-pack — verified working 2026-10-07)
 
-> Uncertainty flag: the exact Content Editor UI for adding a loose file at a
-> custom path is not documented in our notes. The steps below are the most
-> likely flow; if the editor forces a different layout, adapt and tell me what
-> you did so I can update this spec.
+> The Content Editor approach is deprecated: it produces .sga archives with
+> file paths but no content. Use AOEMods.Essence `sga-pack` instead
+> (round-trip verified byte-identical).
 
-1. Open the **Age of Empires IV Content Editor (Beta)**.
-2. Create a **new mod project**. Name it `Phase2 Archer Test` (any name works).
-   - If the editor asks for a mod type: pick **Game Mode** if available (it's
-     the type that natively supports `.scar` files). Otherwise pick whatever
-     type lets you add files freely. Do NOT pick Tuning Pack — that's for
-     attribute overrides, and we need a raw file overlay.
-3. In the project, create the folder path `ai/` and place
-   `files/ai_cardinal_scoring_functions.scar` there, so the project contains:
+1. On the VM (or any machine with .NET 6): place the .scar at
+   `input/ai/cardinal_scoring_functions.scar`
+   (get the file from `~/workspace/mods/aoe4/phase2-test/files/`).
+2. Run:
    ```
-   <project>/ai/cardinal_scoring_functions.scar
+   dotnet AOEMods.Essence.CLI.dll sga-pack input output/phase2_test.sga phase2_test
    ```
-   (Get the file from `~/workspace/mods/aoe4/phase2-test/files/` on the VM —
-   ask Muse to transfer it, or copy it via any method you like.)
-4. **Build / cook** the mod (F7 or the Build button, same as a tuning pack).
-   Confirm the cooked `.sga` contains `ai/cardinal_scoring_functions.scar`
-   (if the editor has an archive inspector; otherwise just note the build
-   succeeded).
-5. Note where the cooked `.sga` landed (usually under
-   `...\Documents\My Games\Age of Empires IV\mods\` or the editor's output
-   folder).
+3. Verify with `sga-unpack` that the .scar is inside at the right path.
+4. Transfer `phase2_test.sga` to Khan's PC:
+   `C:\Program Files (x86)\Steam\steamapps\common\Age of Empires IV\cardinal\archives\`
+5. Add to `RelicGame.module` (back it up first):
+   ```
+   [data:common:12]
+   required = 1
+   archiveRoot = cardinal\archives
+   archive.01 = phase2_test
+   ```
+6. Ensure spearman DLLs (`version.dll` + `version_orig.dll`) are in the game
+   folder for the sig-check bypass. **Delete both before any online play.**
 
 ## Enable and verify loading
 
